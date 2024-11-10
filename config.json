@@ -3,8 +3,8 @@
     "go": {
       "skip_patterns": [
         "//",
-        "/*",
-        "*/",
+        "/\\*",
+        "\\*/",
         "^\\s*$"
       ],
       "extensions": [
@@ -20,6 +20,489 @@
       ],
       "extensions": [
         ".py"
+      ]
+    },
+    "c": {
+      "skip_patterns": [
+        "//",
+        "/\\*",
+        "\\*/",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".c",
+        ".h"
+      ]
+    },
+    "java": {
+      "skip_patterns": [
+        "//",
+        "/\\*",
+        "\\*/",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".java"
+      ]
+    },
+    "ruby": {
+      "skip_patterns": [
+        "#",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".rb"
+      ]
+    },
+    "rust": {
+      "skip_patterns": [
+        "//",
+        "/\\*",
+        "\\*/",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".rs"
+      ]
+    },
+    "csharp": {
+      "skip_patterns": [
+        "//",
+        "/\\*",
+        "\\*/",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".cs"
+      ]
+    },
+    "javascript": {
+      "skip_patterns": [
+        "//",
+        "/\\*",
+        "\\*/",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".js"
+      ]
+    },
+    "typescript": {
+      "skip_patterns": [
+        "//",
+        "/\\*",
+        "\\*/",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".ts"
+      ]
+    },
+    "php": {
+      "skip_patterns": [
+        "//",
+        "/\\*",
+        "\\*/",
+        "^\\s*$",
+        "<\\?php",
+        "\\?>"
+      ],
+      "extensions": [
+        ".php"
+      ]
+    },
+    "html": {
+      "skip_patterns": [
+        "<!--",
+        "-->",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".html",
+        ".htm"
+      ]
+    },
+    "css": {
+      "skip_patterns": [
+        "/\\*",
+        "\\*/",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".css"
+      ]
+    },
+    "shell": {
+      "skip_patterns": [
+        "#",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".sh"
+      ]
+    },
+    "kotlin": {
+      "skip_patterns": [
+        "//",
+        "/\\*",
+        "\\*/",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".kt"
+      ]
+    },
+    "swift": {
+      "skip_patterns": [
+        "//",
+        "/\\*",
+        "\\*/",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".swift"
+      ]
+    },
+    "scala": {
+      "skip_patterns": [
+        "//",
+        "/\\*",
+        "\\*/",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".scala"
+      ]
+    },
+    "perl": {
+      "skip_patterns": [
+        "#",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".pl"
+      ]
+    },
+    "r": {
+      "skip_patterns": [
+        "#",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".r"
+      ]
+    },
+    "lua": {
+      "skip_patterns": [
+        "--",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".lua"
+      ]
+    },
+    "haskell": {
+      "skip_patterns": [
+        "--",
+        "{-",
+        "-}",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".hs"
+      ]
+    },
+    "objective-c": {
+      "skip_patterns": [
+        "//",
+        "/\\*",
+        "\\*/",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".m",
+        ".h"
+      ]
+    },
+    "groovy": {
+      "skip_patterns": [
+        "//",
+        "/\\*",
+        "\\*/",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".groovy"
+      ]
+    },
+    "dart": {
+      "skip_patterns": [
+        "//",
+        "/\\*",
+        "\\*/",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".dart"
+      ]
+    },
+    "elixir": {
+      "skip_patterns": [
+        "#",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".ex",
+        ".exs"
+      ]
+    },
+    "erlang": {
+      "skip_patterns": [
+        "%",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".erl"
+      ]
+    },
+    "fortran": {
+      "skip_patterns": [
+        "!",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".f",
+        ".for",
+        ".f90"
+      ]
+    },
+    "pascal": {
+      "skip_patterns": [
+        "//",
+        "{",
+        "}",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".pas"
+      ]
+    },
+    "matlab": {
+      "skip_patterns": [
+        "%",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".m"
+      ]
+    },
+    "julia": {
+      "skip_patterns": [
+        "#",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".jl"
+      ]
+    },
+    "sql": {
+      "skip_patterns": [
+        "--",
+        "/\\*",
+        "\\*/",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".sql"
+      ]
+    },
+    "json": {
+      "skip_patterns": [
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".json"
+      ]
+    },
+    "xml": {
+      "skip_patterns": [
+        "<!--",
+        "-->",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".xml"
+      ]
+    },
+    "tsql": {
+      "skip_patterns": [
+        "--",
+        "/\\*",
+        "\\*/",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".sql"
+      ]
+    },
+    "vhdl": {
+      "skip_patterns": [
+        "--",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".vhdl",
+        ".vh"
+      ]
+    },
+    "cobol": {
+      "skip_patterns": [
+        "*",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".cob",
+        ".cbl"
+      ]
+    },
+    "assembly": {
+      "skip_patterns": [
+        ";",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".asm"
+      ]
+    },
+    "actionscript": {
+      "skip_patterns": [
+        "//",
+        "/\\*",
+        "\\*/",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".as"
+      ]
+    },
+    "viml": {
+      "skip_patterns": [
+        "\"",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".vim"
+      ]
+    },
+    "bash": {
+      "skip_patterns": [
+        "#",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".bash"
+      ]
+    },
+    "ada": {
+      "skip_patterns": [
+        "--",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".ada",
+        ".ads",
+        ".adb"
+      ]
+    },
+    "delphi": {
+      "skip_patterns": [
+        "//",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".pas",
+        ".dpr",
+        ".dfm"
+      ]
+    },
+    "smalltalk": {
+      "skip_patterns": [
+        "\"",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".st"
+      ]
+    },
+    "scheme": {
+      "skip_patterns": [
+        ";",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".scm"
+      ]
+    },
+    "clojure": {
+      "skip_patterns": [
+        ";",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".clj"
+      ]
+    },
+    "fsharp": {
+      "skip_patterns": [
+        "//",
+        "(\\*",
+        "\\*)",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".fs"
+      ]
+    },
+    "ocaml": {
+      "skip_patterns": [
+        "(\\*",
+        "\\*)",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".ml",
+        ".mli"
+      ]
+    },
+    "nim": {
+      "skip_patterns": [
+        "#",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".nim"
+      ]
+    },
+    "racket": {
+      "skip_patterns": [
+        ";",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".rkt"
+      ]
+    },
+    "cpp": {
+      "skip_patterns": [
+        "//",
+        "/\\*",
+        "\\*/",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".cpp",
+        ".hpp",
+        ".h"
       ]
     }
   }
