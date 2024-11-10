@@ -1,0 +1,26 @@
+{
+  "languages": {
+    "go": {
+      "skip_patterns": [
+        "//",
+        "/*",
+        "*/",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".go"
+      ]
+    },
+    "python": {
+      "skip_patterns": [
+        "#",
+        "\"\"\"",
+        "\"\"\"",
+        "^\\s*$"
+      ],
+      "extensions": [
+        ".py"
+      ]
+    }
+  }
+}
