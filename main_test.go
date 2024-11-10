@@ -52,8 +52,8 @@ func TestMainFunction(t *testing.T) {
 	<-done
 
 	// Verify the output
-	expectedOutput := "Total lines of code: "
-	if !bytes.Contains(out.Bytes(), []byte(expectedOutput)) {
+	expectedOutput := "Total lines of code: 126\n"
+	if !bytes.Equal(out.Bytes(), []byte(expectedOutput)) {
 		t.Errorf("expected output to contain %q, got %q", expectedOutput, out.String())
 	}
 }
