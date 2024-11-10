@@ -1,4 +1,4 @@
-// loc - count lines of code in a directory
+// loc - count lines of code in a directory or repo
 // BSD 3-Clause License
 //
 // Copyright (c) 2024, Alex Gaetano Padula
