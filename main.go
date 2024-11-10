@@ -166,6 +166,11 @@ func main() {
 
 	loc.Directory = *dir // set the directory
 
+	if loc.Directory == "" { // if the directory is empty
+		fmt.Println("Directory is empty") // print an error
+		os.Exit(1)
+	}
+
 	// Read the config
 	loc.Config, err = readConfig()
 	if err != nil {
