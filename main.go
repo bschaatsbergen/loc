@@ -36,6 +36,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -155,20 +156,49 @@ func (loc *Loc) countLines(filePath string, skipPatterns []string) (int, error) 
 	return totalLines, nil
 }
 
+// cloneRepo clones a GitHub repository to a temporary directory
+func cloneRepo(repoURL string) (string, error) {
+	tempDir, err := os.MkdirTemp("", "loc-repo-") // create a temporary directory
+	if err != nil {
+		return "", err
+	}
+
+	cmd := exec.Command("git", "clone", repoURL, tempDir)
+	err = cmd.Run()
+	if err != nil {
+		os.RemoveAll(tempDir)
+		return "", err
+	}
+
+	return tempDir, nil
+}
+
 func main() {
 	var err error // global error variable
 	loc := Loc{}  // create a new Loc struct
 
-	dir := flag.String("dir", ".", "directory to count lines of code") // create a flag for the directory
-	//repo := flag.String("repo", ".", "github repository to count lines of code") // create a flag for a repository
+	dir := flag.String("dir", ".", "directory to count lines of code")           // create a flag for the directory
+	repo := flag.String("repo", ".", "github repository to count lines of code") // create a flag for a repository
 
 	flag.Parse() // parse the flags
 
 	loc.Directory = *dir // set the directory
 
+	// directory supercedes repo
 	if loc.Directory == "" { // if the directory is empty
 		fmt.Println("Directory is empty") // print an error
 		os.Exit(1)
+	} else {
+		if *repo != "" {
+			loc.Directory, err = cloneRepo(*repo)
+			if err != nil {
+				fmt.Println("Error cloning repository:", err)
+				return
+			}
+			defer os.RemoveAll(loc.Directory)
+		} else {
+			loc.Directory = *dir
+		}
 	}
 
 	// Read the config
