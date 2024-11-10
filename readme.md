@@ -17,3 +17,54 @@ go build -o loc main.go
 ```bash
 ./loc -repo github.com/username/repo
 ```
+
+### Supported Languages
+- Go
+- Python
+- C
+- Java
+- Ruby
+- Rust
+- C#
+- JavaScript
+- TypeScript
+- PHP
+- HTML
+- CSS
+- Shell
+- Kotlin
+- Swift
+- Scala
+- Perl
+- R
+- Lua
+- Haskell
+- Objective-C
+- Groovy
+- Dart
+- Elixir
+- Erlang
+- Fortran
+- Pascal
+- MATLAB
+- Julia
+- SQL
+- JSON
+- XML
+- T-SQL
+- VHDL
+- COBOL
+- Assembly
+- ActionScript
+- VimL
+- Bash
+- Ada
+- Delphi
+- Smalltalk
+- Scheme
+- Clojure
+- F#
+- OCaml
+- Nim
+- Racket
+- C++
