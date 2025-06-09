@@ -18,6 +18,26 @@ go build -o loc main.go
 ./loc -repo github.com/username/repo
 ```
 
+#### Exclude files and directories using regex patterns
+```bash
+# Exclude test files
+./loc -dir /path/to/directory --exclude ".*_test\.go$" --exclude ".*\.spec\.ts$"
+
+# Exclude multiple directories
+./loc -dir /path/to/directory --exclude "node_modules/" --exclude "\.git/" --exclude "build/"
+
+# Exclude generated files and test directories
+./loc -dir /path/to/directory --exclude "gen/.*" --exclude "/tests/" --exclude ".*\.generated\."
+
+# Multiple exclusions can be combined
+./loc -dir /path/to/directory \
+--exclude ".*_test\.go$" \
+--exclude "node_modules/" \
+--exclude "\.git/" \
+--exclude "build/" \
+--exclude "dist/"
+```
+
 ### Supported Languages
 - Go
 - Python
