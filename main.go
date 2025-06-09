@@ -44,9 +44,10 @@ import (
 
 // Loc is the main struct for the Loc program
 type Loc struct {
-	TotalLines int     // Total number of lines of code
-	Config     *Config // The Loc configuration
-	Directory  string  // The directory to scan
+	TotalLines      int              // Total number of lines of code
+	Config          *Config          // The Loc configuration
+	Directory       string           // The directory to scan
+	ExcludePatterns []*regexp.Regexp // Compiled regex patterns for file exclusion
 }
 
 // LanguageConfig is the configuration for a language
@@ -90,6 +91,32 @@ func readConfig() (*Config, error) {
 	return &config, nil
 }
 
+// shouldExcludeFile checks if a file or directory should be excluded based on patterns
+func (loc *Loc) shouldExcludeFile(path string) bool {
+	// Get the base name and relative path for pattern matching
+	baseName := filepath.Base(path)
+	relPath := strings.TrimPrefix(path, loc.Directory)
+	relPath = strings.TrimPrefix(relPath, string(os.PathSeparator))
+
+	// Check against all exclusion patterns
+	for _, pattern := range loc.ExcludePatterns {
+		// Check against full relative path
+		if pattern.MatchString(relPath) {
+			return true
+		}
+		// Check against base name
+		if pattern.MatchString(baseName) {
+			return true
+		}
+		// Check against full path
+		if pattern.MatchString(path) {
+			return true
+		}
+	}
+
+	return false
+}
+
 // scan scans the directory and counts the lines of code
 func (loc *Loc) scan() error {
 	// Walk the directory
@@ -97,8 +124,16 @@ func (loc *Loc) scan() error {
 		if err != nil { // if there is an error, return the error
 			return err
 		}
-		if !info.IsDir() { // if the file is not a directory we can count the lines of code
 
+		// Check if this file or directory should be excluded
+		if loc.shouldExcludeFile(path) {
+			if info.IsDir() {
+				return filepath.SkipDir // Skip entire directory
+			}
+			return nil // Skip this file
+		}
+
+		if !info.IsDir() { // if the file is not a directory we can count the lines of code
 			for _, langConfig := range loc.Config.Languages { // iterate over configured languages
 				for _, ext := range langConfig.Extensions { // iterate over the extensions for the language
 					if strings.HasSuffix(path, ext) { // if the file has the correct extension
@@ -122,7 +157,9 @@ func (loc *Loc) countLines(filePath string, skipPatterns []string) (int, error) 
 	if err != nil {
 		return 0, err
 	}
-	defer file.Close() // defer the closure of the file
+	defer func(file *os.File) {
+		_ = file.Close()
+	}(file) // defer the closure of the file
 
 	scanner := bufio.NewScanner(file) // create a scanner for the file
 
@@ -166,23 +203,66 @@ func cloneRepo(repoURL string) (string, error) {
 	cmd := exec.Command("git", "clone", repoURL, tempDir)
 	err = cmd.Run()
 	if err != nil {
-		os.RemoveAll(tempDir)
+		_ = os.RemoveAll(tempDir)
 		return "", err
 	}
 
 	return tempDir, nil
 }
 
+// compileExcludePatterns compiles the exclude patterns into regular expressions
+func compileExcludePatterns(patterns []string) ([]*regexp.Regexp, error) {
+	var compiledPatterns []*regexp.Regexp
+
+	for _, pattern := range patterns {
+		// Compile the regex pattern directly (no glob conversion)
+		compiled, err := regexp.Compile(pattern)
+		if err != nil {
+			return nil, fmt.Errorf("invalid exclude pattern '%s': %v", pattern, err)
+		}
+
+		compiledPatterns = append(compiledPatterns, compiled)
+	}
+
+	return compiledPatterns, nil
+}
+
+// Custom flag type for collecting multiple exclude patterns
+type excludeFlags []string
+
+// String implements the flag.Value interface for excludeFlags
+func (e *excludeFlags) String() string {
+	return strings.Join(*e, ", ")
+}
+
+// Set implements the flag.Value interface for excludeFlags
+func (e *excludeFlags) Set(value string) error {
+	*e = append(*e, value)
+	return nil
+}
+
 func main() {
 	var err error // global error variable
 	loc := Loc{}  // create a new Loc struct
 
-	dir := flag.String("dir", ".", "directory to count lines of code")           // create a flag for the directory
-	repo := flag.String("repo", ".", "github repository to count lines of code") // create a flag for a repository
+	var excludePatterns excludeFlags
+
+	dir := flag.String("dir", ".", "directory to count lines of code")                                               // create a flag for the directory
+	repo := flag.String("repo", ".", "github repository to count lines of code")                                     // create a flag for a repository
+	flag.Var(&excludePatterns, "exclude", "regex pattern to exclude files/directories (can be used multiple times)") // used to skip over files and directories that match the given regex patterns
 
 	flag.Parse() // parse the flags
 
 	loc.Directory = *dir // set the directory
+
+	// Compile exclude patterns if any were provided
+	if len(excludePatterns) > 0 {
+		loc.ExcludePatterns, err = compileExcludePatterns(excludePatterns)
+		if err != nil {
+			fmt.Println("Error compiling exclude patterns:", err)
+			return
+		}
+	}
 
 	// directory supercedes repo
 	if loc.Directory == "" { // if the directory is empty
@@ -195,12 +275,13 @@ func main() {
 				fmt.Println("Error cloning repository:", err)
 				return
 			}
-			defer os.RemoveAll(loc.Directory)
+			defer func(path string) {
+				_ = os.RemoveAll(path)
+			}(loc.Directory)
 		} else {
 			loc.Directory = *dir
 		}
 	}
-
 	// Read the config
 	loc.Config, err = readConfig()
 	if err != nil {
